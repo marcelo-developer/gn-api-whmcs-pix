@@ -127,3 +127,9 @@ add_hook('AdminAreaPage', 1, function ($vars) {
 
     return $extraVariables;
 });
+add_hook('ShoppingCartCheckoutOutput', 1, function($vars) {
+    $paramsGateway = getGatewayVariables('gerencianetpix');
+    $baseUrl = $paramsGateway['systemurl'];
+    $script = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/controlCheckOut.js\"></script>";
+    return $script;
+});
