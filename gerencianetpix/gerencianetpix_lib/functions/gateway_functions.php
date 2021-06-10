@@ -186,8 +186,9 @@ function generateQRCodeTemplate($qrcode)
 
     // Script for Copy action
     $script = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/copyQrCode.js\"></script>";
+    $script2 = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/teste.js\"></script>";
    
-    $template = $qrcodeImage.$copyButton.$script;
+    $template = $qrcodeImage.$copyButton.$script.$script2;
 
     return $template;
 }

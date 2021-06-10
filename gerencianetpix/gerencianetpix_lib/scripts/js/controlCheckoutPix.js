@@ -50,33 +50,9 @@ window.onload = function() {
         }
 
     });
-    let removeCheckedDivWhmcs = document.querySelectorAll("#paymentGatewaysContainer .text-center label div");
-    removeCheckedDivWhmcs.forEach((element, i) => {
-        if (element.id.indexOf("divPix") == -1 && element.id.indexOf("divBoleto") == -1) {
-            element.onclick = () => {
-                document.getElementById("divPix").classList.remove("checked");
-                document.getElementById("inputPix").removeAttribute("checked");
-                document.getElementById("divBoleto").classList.remove("checked");
-                document.getElementById("inputBoleto").removeAttribute("checked");
-            }
-        }
-
-    });
-    let removeCheckedInputWhmcs = document.querySelectorAll("#paymentGatewaysContainer .text-center label div input");
-    removeCheckedInputWhmcs.forEach((element, i) => {
-        if (element.id.indexOf("inputPix") == -1 && element.id.indexOf("inputBoleto") == -1) {
-            element.onclick = () => {
-                document.getElementById("divPix").classList.remove("checked");
-                document.getElementById("inputPix").removeAttribute("checked");
-                document.getElementById("divBoleto").classList.remove("checked");
-                document.getElementById("inputBoleto").removeAttribute("checked");
-            }
-        }
-
-    });
     let removeCheckedInsWhmcs = document.querySelectorAll("#paymentGatewaysContainer .text-center label div ins");
     removeCheckedInsWhmcs.forEach((element, i) => {
-        if (i == 0) {
+        if (i <= (removeCheckedInsWhmcs.length - 2)) {
             element.onclick = () => {
                 document.getElementById("divPix").classList.remove("checked");
                 document.getElementById("inputPix").removeAttribute("checked");
@@ -86,44 +62,6 @@ window.onload = function() {
         }
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*let testeRapido = document.getElementById("paymentGatewaysContainer");
-    testeRapido.onclick = () => {
-        let aux = 0;
-        let removeCheckedLabelWhmcs = document.querySelectorAll("#paymentGatewaysContainer .text-center label div ");
-        removeCheckedLabelWhmcs.forEach((element, i) => {
-            if (element.className.indexOf("checked") != -1) {
-                aux++;
-            }
-            if (aux >= 2) {
-                document.getElementById("divPix").classList.remove("checked");
-                document.getElementById("inputPix").removeAttribute("checked");
-                document.getElementById("divBoleto").classList.remove("checked");
-                document.getElementById("inputBoleto").removeAttribute("checked");
-            }
-
-        });
-
-    }*/
-
-
-
-
-
 
 
     actionInputBoleto.onclick = () => {
