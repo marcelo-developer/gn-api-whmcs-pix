@@ -9,6 +9,8 @@ use Gerencianet\Gerencianet;
  */
 function validateRequiredParams($gatewayParams)
 {
+    
+
     $requiredParams = array(
         'clientIdProd'        => $gatewayParams['clientIdProd'],
         'clientSecretProd'    => $gatewayParams['clientSecretProd'],
@@ -174,6 +176,7 @@ function createQrCode($api_instance, $locId) {
  */
 function generateQRCodeTemplate($qrcode)
 {
+    
     // QR Code image
     $qrcodeImage = "<img src='{$qrcode['imagemQrcode']}' />\n";
 
@@ -181,17 +184,22 @@ function generateQRCodeTemplate($qrcode)
     $copyButton = "<button class='btn btn-default' id='copyButton' onclick=\"copyQrCode('{$qrcode['qrcode']}')\">Copiar QR Code</button>\n";
 
     // get config gateway
+
     $paramsGateway = getGatewayVariables('gerencianetpix');
     $baseUrl = $paramsGateway['systemurl'];
 
+
+
     // Script for Copy action
     $script = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/copyQrCode.js\"></script>";
-    $script2 = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/teste.js\"></script>";
+    //$script2 = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/teste.js\"></script>";
    
-    $template = $qrcodeImage.$copyButton.$script.$script2;
-
+    $template = $qrcodeImage;
     return $template;
 }
+    
+    
+
 
 /**
  * Create WebhookUrl for a Pix Charge

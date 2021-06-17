@@ -130,52 +130,43 @@ function gerencianetpix_config()
  */
 function gerencianetpix_link($gatewayParams)
 {
-    //  Validate if required parameters are empty
-    validateRequiredParams($gatewayParams);
-
-    // Getting API Instance
-    $api_instance = getGerencianetApiInstance($gatewayParams);
-
-    // Creating table 'tblgerencianetpix'
-    createGerencianetPixTable();
-
-    // Verifying if exists a Pix Charge for current invoiceId
-    $existingPixCharge = getPixCharge($gatewayParams['invoiceid']);
-    
-    if (empty($existingPixCharge)) {
-        // Creating a new Pix Charge
-        $newPixCharge = createPixCharge($api_instance, $gatewayParams);
-    
-        if (isset($newPixCharge['txid'])) {
-            // Storing Pix Charge Infos on table 'tblgerencianetpix' for later use
-            storePixChargeInfo($newPixCharge, $gatewayParams);
-        }
-    }
-
-    // Generating QR Code
-    $locId = $existingPixCharge ? $existingPixCharge['locid'] : $newPixCharge['loc']['id'];
-
-
-
-    $numeroDeFatura = $gatewayParams['invoiceid'];
-    $descricao = $gatewayParams['description'];
-    $valor = $gatewayParams['amount'];
     $baseUrl = $gatewayParams['systemurl'];
 
-    $htmlVariables = "
-    <script>
-        setTimeout(() => {
-            console.log(document.querySelectorAll('.meuPopUp form')[0]);
-            document.querySelectorAll('.meuPopUp form')[0].insertAdjacentHTML('beforeend',\"<input id='invoiceid' name='invoiceid' type='hidden' value='$numeroDeFatura'>\")
-            document.querySelectorAll('.meuPopUp form')[0].insertAdjacentHTML('beforeend',\"<input id='description' name='description' type='hidden' value='$descricao'>\")
-            document.querySelectorAll('.meuPopUp form')[0].insertAdjacentHTML('beforeend',\"<input id='amount' name='amount' type='hidden' value='$valor'>\")
-            document.querySelectorAll('.meuPopUp form')[0].insertAdjacentHTML('beforeend',\"<input id='baseUrl' name='baseUrl' type='hidden' value='$baseUrl'>\")
-           
-        },10000)
-    </script>
-    ";
+    $paymentOptionsScript = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/viewInvoiceModal.js\"></script>";
 
-    return $htmlVariables . createQRCode($api_instance, $locId) ;
+
+
+    if (!isset($_POST['optionPayment'])) {
+        return $paymentOptionsScript;
+    } else {
+        if ($_POST['optionPayment'] == 'pix') {
+            //  Validate if required parameters are empty
+            validateRequiredParams($gatewayParams);
+
+            // Getting API Instance
+            $api_instance = getGerencianetApiInstance($gatewayParams);
+
+            // Creating table 'tblgerencianetpix'
+            createGerencianetPixTable();
+
+            // Verifying if exists a Pix Charge for current invoiceId
+            $existingPixCharge = getPixCharge($gatewayParams['invoiceid']);
+
+            if (empty($existingPixCharge)) {
+                // Creating a new Pix Charge
+                $newPixCharge = createPixCharge($api_instance, $gatewayParams);
+
+                if (isset($newPixCharge['txid'])) {
+                    // Storing Pix Charge Infos on table 'tblgerencianetpix' for later use
+                    storePixChargeInfo($newPixCharge, $gatewayParams);
+                }
+            }
+
+            // Generating QR Code
+            $locId = $existingPixCharge ? $existingPixCharge['locid'] : $newPixCharge['loc']['id'];
+            return createQRCode($api_instance, $locId);
+        }
+    }
 }
 
 /**
@@ -199,7 +190,7 @@ function gerencianetpix_refund($gatewayParams)
 
     // Refunding Pix Charge
     $responseData = refundCharge($api_instance, $gatewayParams);
-    
+
     return array(
         'status' => $responseData['rtrId'] ? 'success' : 'error',
         'rawdata' => $responseData,
