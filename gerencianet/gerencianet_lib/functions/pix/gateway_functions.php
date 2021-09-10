@@ -185,14 +185,13 @@ function generateQRCodeTemplate($qrcode)
 
     // get config gateway
 
-    $paramsGateway = getGatewayVariables('gerencianetpix');
+    $paramsGateway = getGatewayVariables('gerencianet');
     $baseUrl = $paramsGateway['systemurl'];
 
 
 
     // Script for Copy action
-    $script = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/copyQrCode.js\"></script>";
-    //$script2 = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianetpix/gerencianetpix_lib/scripts/js/teste.js\"></script>";
+    $script = "<script type=\"text/javascript\" src=\"$baseUrl/modules/gateways/gerencianet/gerencianet_lib/scripts/js/copyQrCode.js\"></script>";
    
     $template = $qrcodeImage;
     return $template;
